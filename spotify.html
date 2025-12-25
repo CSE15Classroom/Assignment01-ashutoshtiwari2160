@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <!-- <link rel="stylesheet" href="style.css"/> -->
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    background-image: linear-gradient(rgba(201, 193, 193, 0.7),rgba(0,0,0,0.7)),url(inside_back.png);
+    color: white;
+    overflow: hidden;
+}
+/* --- Header --- */
+.upermenue {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    background-color: #000;
+}
+.left-head { display: flex; align-items: center; gap: 15px; }
+#logo { width: 35px; border-radius: 5px; }
+.home-icon { font-size: 22px; cursor: pointer; }
+.search-box {
+    position: relative;
+    flex: 0 1 400px;
+}
+.search-box input {
+    width: 100%;
+    padding: 10px 40px;
+    border-radius: 20px;
+    border: none;
+    background: #242424;
+    color: white;
+    outline: none;
+}
+.search-icon { position: absolute; left: 15px; top: 10px; color: #b3b3b3; }
+.options { display: flex; align-items: center; gap: 20px; }
+.opt h3 { font-size: 14px; color: #b3b3b3; cursor: pointer; }
+.end-option { background: white; color: black; padding: 5px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+/* --- Layout Structure --- */
+.container {
+    display: flex;
+    height: calc(100vh - 65px); 
+}
+.sidebar {
+    width: 300px;
+    background-color: #121212;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-shrink: 0; 
+}
+.sidebar-card {
+    background: #242424;
+    padding: 15px;
+    border-radius: 10px;
+}
+.sidebar-card h3 { font-size: 14px; margin-bottom: 5px; }
+.sidebar-card p { font-size: 12px; margin-bottom: 15px; color: #b3b3b3; }
+
+.btn { background: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+/* --- Main Content (Scrollable Box) --- */
+.main-content {
+    flex: 1;
+    overflow-y: auto; 
+    background: linear-gradient(to bottom, #1f1b1b, #121212);
+    padding: 20px;
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+/* --- Horizontal Scrolling --- */
+.horizontal-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto; 
+    padding-bottom: 20px;
+    scrollbar-width: none; 
+}
+.horizontal-scroll::-webkit-scrollbar { display: none; } 
+
+/* --- Card Styles --- */
+.card {
+    min-width: 170px; 
+    background: #181818;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.card-artist{
+    display: flex;
+}
+.card:hover { background: #282828; }
+
+.img-container {
+    position: relative;
+    margin-bottom: 10px;
+}
+.card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.card-artist img {
+    width: 200px;
+    height: 20vh; 
+    border-radius: 50%; }
+
+/* --- Play Button Hover Effect --- */
+.play-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 45px;
+    height: 45px;
+    background: #1db954;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.card:hover .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+}
+a{
+    color: #b3b3b3;
+}
+/* --- Responsive Layout --- */
+@media (max-width: 900px) {
+    .sidebar { display: none; } 
+}
+</style>
+<body>
+    <header class="upermenue">
+        <div class="left-head">
+            <img src="https://i.pinimg.com/1200x/5d/8f/1f/5d8f1f08035ca53f637b19ae93764a61.jpg" id="logo" alt="Logo">
+            <div class="home-icon">🏠</div>
+        </div>
+
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" placeholder="What do you want to play?">
+        </div>
+
+        <div class="options">
+            <div class="opt"><h3>Premium</h3></div>
+            <div class="opt"><h3>Support</h3></div>
+            <div class="opt"><h3>Download</h3></div>
+            <div class="end-option"><h4>Log in</h4></div>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3>Create your first playlist</h3>
+                <p>It's easy, we'll help you</p>
+                <button class="btn">Create playlist</button>
+            </div>
+            <div class="sidebar-card">
+                <h3>Let's find some podcasts</h3>
+                <p>We'll keep you updated on new episodes</p>
+                <button class="btn">Browse podcasts</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            <section class="scroll-section">
+                <div class="section-header">
+                    <h2>Trending songs</h2>
+                    <a href="#">Show all</a>
+                </div>
+                <div class="horizontal-scroll">
+                    <div class="card">
+                        <div class="img-container">
+                            <img src="https://c.saavncdn.com/475/Dhurandhar-Hindi-2025-20251217164216-500x500.jpg" alt="Song">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Isq jalakar-karava("from Dhurender")</h4>
+                        <p>Shaswat sachdev</p>
+                    </div>
+                    <div class="card">
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7WesMwijeM3JlyvJ8qVbqDQOFZtO-pvcEUg&s" alt="Song">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Badass(From"Leo")</h4>
+                        <p>Anirudh Ravichandra</p>
+                    </div>
+                    <div class="card"><div class="img-container"><img src="https://c.saavncdn.com/428/Aashiqui-2-Marathi-2013-500x500.jpg"><button class="play-btn">▶</button></div><h4>Aahiqui-2</h4><p>Arjit Singh</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/W1y8blwMLxY/sddefault.jpg"><button class="play-btn">▶</button></div><h4>Barbaad("From-Saiyaara")</h4><p>Jubin Nutyyal</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/nrebb6pxPrk/maxresdefault.jpg"><button class="play-btn">▶</button></div><h4>Vijay the master-Title Track</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/U04qjtXo7V0/maxresdefault.jpg"><button class="play-btn">▶</button></div><h4>Paro</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/PZqCf8qqlCk/maxresdefault.jpg"><button class="play-btn">▶</button></div><h4>Mahi Aaja-("From-Sing Is bling")</h4><p>Sasha,Manji Musik</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/NcG3ToSRpfM/mqdefault.jpg"><button class="play-btn">▶</button></div><h4>Breathin</h4><p>Arian Grande</p></div>
+                    <div class="card"><div class="img-container"><img src="https://images.genius.com/09710295ed555e04ca0cc23e44b51979.1000x1000x1.png"><button class="play-btn">▶</button></div><h4>Sahiba</h4><p>Aditya Rikhari</p></div>
+                    <div class="card"><div class="img-container"><img src="https://c.saavncdn.com/575/Bhaag-Milkha-Bhaag-Hindi-2013-20190607111645-500x500.jpg"><button class="play-btn">▶</button></div><h4>O-Rangrez</h4><p>Shanker-Ehsaan</p></div>
+                    <div class="card"><div class="img-container"><img src="https://images.genius.com/09710295ed555e04ca0cc23e44b51979.1000x1000x1.png"><button class="play-btn">▶</button></div><h4>Sahiba</h4><p>Aditya Rikhari</p></div>
+                    <div class="card"><div class="img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRztVS-zZq5BSxhaH2EZEGZD-FvuF8o8ZyEvg&s"><button class="play-btn">▶</button></div><h4>Piya Ghar Aavnegai</h4><p>Kailash Kher</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/NcG3ToSRpfM/mqdefault.jpg"><button class="play-btn">▶</button></div><h4>Breathin</h4><p>Arian Grande</p></div>
+                    <div class="card"><div class="img-container"><img src="https://images.genius.com/9224c5dc34efac8a94d4f378311760aa.1000x1000x1.png"><button class="play-btn">▶</button></div><h4>Bheegi Si Bhaagi Si</h4><p>APritam,Mohit Chandra</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/PZqCf8qqlCk/maxresdefault.jpg"><button class="play-btn">▶</button></div><h4>Mahi Aaja</h4><p>Sasha,Manji Musik</p></div>
+                    <div class="card"><div class="img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQY7qUzS0VZrz4lSQuSLAakK35GX3Xn-y06YQ&s"><button class="play-btn">▶</button></div><h4>Ehsaas</h4><p>Faheem Abdullah</p></div>
+                    <div class="card"><div class="img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYut11mvtGytDKdk00eMXlYcPK3ZWUuekGbg&s"><button class="play-btn">▶</button></div><h4>Mane Na Mn mera</h4><p></p></div>
+                    <div class="card"><div class="img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTetULApGTgJF1ZnbOA9ZFgOALi9sSLLWm56g&s"><button class="play-btn">▶</button></div><h4>Winter Ayun Wali Hai</h4><p>Arjuna Harjai</p></div>
+                    <div class="card"><div class="img-container"><img src="https://i.ytimg.com/vi/U04qjtXo7V0/maxresdefault.jpg"><button class="play-btn">▶</button></div><h4>Paro</h4><p>Aditya Rikhari</p></div>
+                </div>
+            </section>
+
+            <section class="scroll-section">
+                <div class="section-header">
+                    <h2>Popular artists</h2>
+                    <a href="#">Show all</a>
+                </div>
+                <div class="horizontal-scroll">
+                    <div class="card-artist">
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTt6Iaa2Pp6LVRflpHGcCki2cX17EecUkjzA&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Arjit Singh</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpvczzmaSIm3GsCKsePd-UK8_xrwt-Ls3cXA&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Shanker Madhven</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://img.indiaforums.com/person/640x480/0/2164-atif-aslam.webp?c=7vP7E1" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Atif Aslam</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSh4Ermf4Vid9fvnPRsnk6NxssOLdFiaH24iQ&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Udit Naryan</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7yOowPNiJHHJpyAkyvsBJBVBrdfHgsiuoA&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Shreya Ghosal</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://images.bhaskarassets.com/web2images/1884/2025/02/06/lata_1738815917.jpg" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Lata Mangeskar</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmC3WW_yTpcO_cT0zqO8O43xAEV2JIhFNLoQ&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Vishal Shekar</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpFYWz44jNiZRP_jBsg80l94p3txbxVDaAWA&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>A.R Rhaman</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS05SAR8l0oJdUUqDPAYNiUp6l-KlOS-2TcUQ&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Palak  Muchal</h4>
+                        <p>Artist</p>
+                        <div class="img-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu3r6mOm0odwkEfn2W-vK2GjoQ-NPmnOTnvQ&s" alt="Artist">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Arjuna Harjai</h4>
+                        <p>Artist</p>
+                    </div>
+                </div>
+            </section>
+            <section class="scroll-section">
+                <div class="section-header">
+                    <h2>Trending songs</h2>
+                    <a href="#">Show all</a>
+                </div>
+                <div class="horizontal-scroll">
+                    <div class="card">
+                        <div class="img-container">
+                            <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/3gBKY0y3dFFVRqicLnVZYz/d" alt="Song">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Song Title 1</h4>
+                        <p>Artist Name</p>
+                    </div>
+                    <div class="card">
+                        <div class="img-container">
+                            <img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/4K6blSRoklNdpw4mzLxwfn/en" alt="Song">
+                            <button class="play-btn">▶</button>
+                        </div>
+                        <h4>Song Title 2</h4>
+                        <p>Artist Name</p>
+                    </div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/0BchiI2EvnfgIRXq7du3L0/en"><button class="play-btn">▶</button></div><h4>Song 3</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/0oOet2f43PA68X5RxKobEy/en"><button class="play-btn">▶</button></div><h4>Song 4</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/1tqysapcCh1lWEAc9dIFpa/en"><button class="play-btn">▶</button></div><h4>Song 5</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/0Xbdgzdm7k9BJ5gUgmAkpy/id"><button class="play-btn">▶</button></div><h4>Song 6</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/4YRxDV8wJFPHPTeXepOstw/fr"><button class="play-btn">▶</button></div><h4>Song 7</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/151NQTfHWNE45VLj3sis4K/en"><button class="play-btn">▶</button></div><h4>Song 8</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4-8sMy-8Rs8k9K6RLQYh7uayc2IO5YFH4Fw&s"><button class="play-btn">▶</button></div><h4>Song 9</h4><p>Artist</p></div>
+                    <div class="card"><div class="img-container"><img src="https://pickasso.spotifycdn.com/image/ab67c0de0000deef/dt/v1/img/radio/artist/06HL4z0CvFAxyc27GXpf02/en"><button class="play-btn">▶</button></div><h4>Song 10</h4><p>Artist</p></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</body>
+</html>
